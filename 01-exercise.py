@@ -1,9 +1,16 @@
 # !/usr/bin/python
 import cProfile
+import trace
+
+
 '''
 This exercise check a list of tuple that containt pairs of words for know if the 
 partner is a anagram of the first element of the tuple. 
 '''
+
+#~ For more information use trace
+tracer = trace.Trace(count=True, trace=False, outfile='001.dat')
+
 def ToDict(word=''):
 	freq = {}
 	listword = list(word.replace(" ",""))
@@ -30,4 +37,9 @@ def CheckList(words):
 
 listofwords = [('anagram', 'gramana'), ('bad credit', 'debit cart'), ('duck', 'kucd'), ('yard', 'rady')]
 
-cProfile.run('CheckList(listofwords)')
+# cProfile.run('CheckList(listofwords)')
+tracer.runfunc(CheckList, listofwords)
+report = tracer.results()
+report = trace.Trace(count=False, trace=False, infile='001.dat')
+results = tracer.results()
+results.write_results(summary=True, coverdir='.')
